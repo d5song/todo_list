@@ -1,6 +1,6 @@
 # todo_list
 
-A new Flutter project.
+A simple practice-project. This app allows users to enter items and when they are due in a list.
 
 ## Getting Started
 
