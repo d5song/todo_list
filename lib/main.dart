@@ -28,17 +28,22 @@ class MyStatefulWidget extends StatefulWidget {
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   final _formKey = GlobalKey<FormState>();
-  List<String> growableList = <String>["1a", "2b", "3c"];
+  List<String> itemList = <String>[];
+  List<String> dateList = <String>[];
+  String currItem;
+  String currDate;
 
-  void _addItem(String currItem) {
+  void _addItem(String currItem, String currDate) {
     setState(() {
-      growableList.add(currItem);
+      itemList.add(currItem);
+      dateList.add(currDate);
     });
   }
 
   void _removeItem(int index) {
     setState(() {
-      growableList.removeAt(index);
+      itemList.removeAt(index);
+      dateList.removeAt(index);
     });
   }
 
@@ -48,30 +53,49 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       padding: const EdgeInsets.all(8),
       children: <Widget>[
         Container(
-          height: 130,
-          //color: Colors.red[500],
+          height: 150,
           child: Form(
               key: _formKey,
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    TextFormField(
-                      decoration: const InputDecoration(
-                          hintText: 'Enter To-do list item'),
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Item cannot be empty';
-                        }
-                        _addItem(value);
-                        return null;
-                      },
+                    Row(
+                      textDirection: TextDirection.ltr,
+                      children: <Widget>[
+                        Expanded(
+                          child: TextFormField(
+                            decoration: const InputDecoration(
+                                hintText: 'Enter To-do list item'),
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Item cannot be empty';
+                              }
+                              currItem = value;
+                              return null;
+                            },
+                          ),
+                        ),
+                        Expanded(
+                          child: TextFormField(
+                            decoration: const InputDecoration(
+                                hintText: 'Enter Date of item'),
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Date cannot be empty';
+                              }
+                              currDate = value;
+                              return null;
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                     Padding(
                         padding: const EdgeInsets.symmetric(vertical: 16.0),
                         child: ElevatedButton(
                           onPressed: () {
                             if (_formKey.currentState.validate()) {
-                              //_addItem(currItem);
+                              _addItem(currItem, currDate);
                             }
                           },
                           child: Text('Add Item'),
@@ -83,17 +107,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             color: Colors.blue[100],
             child: ListView.separated(
               padding: const EdgeInsets.all(8),
-              itemCount: growableList.length,
+              itemCount: itemList.length,
               itemBuilder: (BuildContext context, int index) {
-                // return Container(
-                //   height: 50,
-                //   color: Colors.blue[400],
-                //   child: Center(child: Text('${growableList[index]}')),
-                // );
                 return Row(
                   textDirection: TextDirection.ltr,
                   children: <Widget>[
-                    Expanded(child: Text('${growableList[index]}')),
+                    Expanded(child: Text('${itemList[index]}')),
+                    Expanded(child: Text('${dateList[index]}')),
                     Padding(
                         padding: const EdgeInsets.symmetric(vertical: 1.0),
                         child: ElevatedButton(
