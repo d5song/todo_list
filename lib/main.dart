@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'date.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,27 +16,27 @@ class MyApp extends StatelessWidget {
       title: _title,
       home: Scaffold(
         appBar: AppBar(title: const Text(_title)),
-        body: MyStatefulWidget(),
+        body: _MyStatefulWidget(),
       ),
     );
   }
 }
 
-class MyStatefulWidget extends StatefulWidget {
-  MyStatefulWidget({Key key}) : super(key: key);
+class _MyStatefulWidget extends StatefulWidget {
+  _MyStatefulWidget({Key key}) : super(key: key);
 
   @override
   _MyStatefulWidgetState createState() => _MyStatefulWidgetState();
 }
 
-class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+class _MyStatefulWidgetState extends State<_MyStatefulWidget> {
   final _formKey = GlobalKey<FormState>();
   List<String> itemList = <String>[];
-  List<String> dateList = <String>[];
+  List<DateTime> dateList = <DateTime>[];
   String currItem;
-  String currDate;
+  DateTime currDate;
 
-  void _addItem(String currItem, String currDate) {
+  void _addItem(String currItem, DateTime currDate) {
     setState(() {
       itemList.add(currItem);
       dateList.add(currDate);
@@ -76,15 +79,42 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                           ),
                         ),
                         Expanded(
-                          child: TextFormField(
-                            decoration: const InputDecoration(
-                                hintText: 'Enter Date of item'),
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Date cannot be empty';
-                              }
-                              currDate = value;
-                              return null;
+                          child: MaterialButton(
+                            child: Text(
+                              currDate.toString(),
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            color: Colors.grey,
+                            onPressed: () {
+                              showModalBottomSheet(
+                                  context: context,
+                                  builder: (BuildContext builder) {
+                                    return Container(
+                                      child: Container(
+                                        height: MediaQuery.of(context)
+                                                .copyWith()
+                                                .size
+                                                .height /
+                                            3,
+                                        child: CupertinoDatePicker(
+                                          onDateTimeChanged:
+                                              (DateTime newdate) {
+                                            currDate = newdate;
+                                          },
+                                          initialDateTime:
+                                              DateTime(2000 - 07 - 28),
+                                          mode: CupertinoDatePickerMode
+                                              .dateAndTime,
+                                          minuteInterval: 5,
+                                        ),
+                                      ),
+                                      height: MediaQuery.of(context)
+                                              .copyWith()
+                                              .size
+                                              .height /
+                                          3,
+                                    );
+                                  });
                             },
                           ),
                         ),
