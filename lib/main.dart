@@ -30,8 +30,10 @@ class _MyStatefulWidget extends StatefulWidget {
 }
 
 class _MyStatefulWidgetState extends State<_MyStatefulWidget> {
+  //TODO: Make this be an automatically sorted list?
   List<String> itemList = <String>[];
   List<DateTime> dateList = <DateTime>[];
+  bool sorted = false;
 
   void addItem(String currItem, DateTime currDate) {
     setState(() {
@@ -59,6 +61,17 @@ class _MyStatefulWidgetState extends State<_MyStatefulWidget> {
           width: double.infinity,
           child: MyForm(addItem),
         ),
+        Container(
+            height: 50,
+            width: 100,
+            padding: const EdgeInsets.all(8),
+            child: ElevatedButton(
+                onPressed: () {
+                  sorted = !sorted;
+                },
+                child: sorted
+                    ? Icon(Icons.arrow_drop_down)
+                    : Icon(Icons.format_list_bulleted))),
         Expanded(
           child: ListView.separated(
             padding: const EdgeInsets.all(8),

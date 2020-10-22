@@ -13,9 +13,16 @@ class MyForm extends StatefulWidget {
 
 class MyFormState extends State {
   final _formKey = GlobalKey<FormState>();
-  String currItem;
-  DateTime currDate;
   final Function addItem;
+  final inputItem = TextEditingController();
+
+  String currItem;
+  DateTime currDate = DateTime(DateTime.now().year, DateTime.now().month,
+      DateTime.now().day, DateTime.now().hour, 0);
+
+  clearTextInput() {
+    inputItem.clear();
+  }
 
   MyFormState(this.addItem);
 
@@ -32,6 +39,7 @@ class MyFormState extends State {
                 children: <Widget>[
                   Expanded(
                     child: TextFormField(
+                      controller: inputItem,
                       decoration: const InputDecoration(
                           hintText: 'Enter To-do list item'),
                       validator: (value) {
@@ -65,7 +73,12 @@ class MyFormState extends State {
                                   onDateTimeChanged: (DateTime newdate) {
                                     currDate = newdate;
                                   },
-                                  initialDateTime: DateTime(2000, 07, 28),
+                                  initialDateTime: DateTime(
+                                      DateTime.now().year,
+                                      DateTime.now().month,
+                                      DateTime.now().day,
+                                      DateTime.now().hour,
+                                      0),
                                   mode: CupertinoDatePickerMode.dateAndTime,
                                   minuteInterval: 5,
                                 ),
@@ -88,6 +101,7 @@ class MyFormState extends State {
                       if (_formKey.currentState.validate()) {
                         addItem(currItem, currDate);
                       }
+                      clearTextInput();
                     },
                     child: Text('Add Item'),
                   ))
