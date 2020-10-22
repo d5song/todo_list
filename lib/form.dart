@@ -43,42 +43,41 @@ class MyFormState extends State {
                       },
                     ),
                   ),
-                  Expanded(
-                    child: MaterialButton(
-                      child: Text(
-                        currDate.toString(),
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      color: Colors.grey,
-                      onPressed: () {
-                        showModalBottomSheet(
-                            context: context,
-                            builder: (BuildContext builder) {
-                              return Container(
-                                child: Container(
-                                  height: MediaQuery.of(context)
-                                          .copyWith()
-                                          .size
-                                          .height /
-                                      3,
-                                  child: CupertinoDatePicker(
-                                    onDateTimeChanged: (DateTime newdate) {
-                                      currDate = newdate;
-                                    },
-                                    initialDateTime: DateTime(2000, 07, 28),
-                                    mode: CupertinoDatePickerMode.dateAndTime,
-                                    minuteInterval: 5,
-                                  ),
-                                ),
+                  MaterialButton(
+                    child: Text(
+                      //TODO: Get this to be a faster update?
+                      currDate.toString().substring(0, 16),
+                      style: TextStyle(color: Colors.black54),
+                    ),
+                    color: Colors.grey[100],
+                    onPressed: () {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (BuildContext builder) {
+                            return Container(
+                              child: Container(
                                 height: MediaQuery.of(context)
                                         .copyWith()
                                         .size
                                         .height /
                                     3,
-                              );
-                            });
-                      },
-                    ),
+                                child: CupertinoDatePicker(
+                                  onDateTimeChanged: (DateTime newdate) {
+                                    currDate = newdate;
+                                  },
+                                  initialDateTime: DateTime(2000, 07, 28),
+                                  mode: CupertinoDatePickerMode.dateAndTime,
+                                  minuteInterval: 5,
+                                ),
+                              ),
+                              height: MediaQuery.of(context)
+                                      .copyWith()
+                                      .size
+                                      .height /
+                                  3,
+                            );
+                          });
+                    },
                   ),
                 ],
               ),

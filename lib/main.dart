@@ -68,7 +68,7 @@ class _MyStatefulWidgetState extends State<_MyStatefulWidget> {
                 textDirection: TextDirection.ltr,
                 children: <Widget>[
                   Expanded(child: Text('${itemList[index]}')),
-                  Expanded(child: Text('${dateList[index]}')),
+                  Expanded(child: Text('${dateList[index]}'.substring(0, 16))),
                   Padding(
                       padding: const EdgeInsets.symmetric(vertical: 1.0),
                       child: ElevatedButton(
