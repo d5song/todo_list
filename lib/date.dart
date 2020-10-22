@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 
-import 'main.dart';
-
 class Date extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {

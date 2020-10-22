@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'main.dart';
-
 class MyForm extends StatefulWidget {
+  final Function addItem;
+  MyForm(this.addItem);
+
   @override
   State<StatefulWidget> createState() {
-    return FormState();
+    return MyFormState(addItem);
   }
 }
 
@@ -14,6 +15,9 @@ class MyFormState extends State {
   final _formKey = GlobalKey<FormState>();
   String currItem;
   DateTime currDate;
+  final Function addItem;
+
+  MyFormState(this.addItem);
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +25,7 @@ class MyFormState extends State {
         key: _formKey,
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Row(
                 textDirection: TextDirection.ltr,
@@ -60,7 +65,7 @@ class MyFormState extends State {
                                     onDateTimeChanged: (DateTime newdate) {
                                       currDate = newdate;
                                     },
-                                    initialDateTime: DateTime(2000 - 07 - 28),
+                                    initialDateTime: DateTime(2000, 07, 28),
                                     mode: CupertinoDatePickerMode.dateAndTime,
                                     minuteInterval: 5,
                                   ),
@@ -82,7 +87,7 @@ class MyFormState extends State {
                   child: ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState.validate()) {
-                        //MyStatefulWidgetState.addItem(currItem, currDate);
+                        addItem(currItem, currDate);
                       }
                     },
                     child: Text('Add Item'),
